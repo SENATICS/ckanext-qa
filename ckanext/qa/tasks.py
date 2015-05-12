@@ -9,7 +9,7 @@ import requests
 import urlparse
 import ckan.lib.celery_app as celery_app
 from ckanext.archiver.tasks import link_checker, LinkCheckerError
-
+from ckan.common import _
 
 class QAError(Exception):
     pass
@@ -20,13 +20,13 @@ class CkanError(Exception):
 
 
 OPENNESS_SCORE_REASON = {
-    -1: 'unrecognised content type',
-    0: 'not obtainable',
-    1: 'obtainable via web page',
-    2: 'machine readable format',
-    3: 'open and standardized format',
-    4: 'ontologically represented',
-    5: 'fully Linked Open Data as appropriate',
+    -1: _('unrecognised content type'),
+    0: _('not obtainable'),
+    1: _('obtainable via web page'),
+    2: _('machine readable format'),
+    3: _('open and standardized format'),
+    4: _('ontologically represented'),
+    5: _('fully Linked Open Data as appropriate'),
 }
 
 MIME_TYPE_SCORE = {

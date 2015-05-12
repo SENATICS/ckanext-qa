@@ -19,7 +19,7 @@ def _(x):
 
 
 def get_star_html(stars, reason):
-    if stars == 0:
+    if stars == 0 or stars == -1:
         return literal('<span class="star-rating no-stars">[%s]</span>' % reason)
 
     captions = [
