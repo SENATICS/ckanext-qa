@@ -20,13 +20,13 @@ class CkanError(Exception):
 
 
 OPENNESS_SCORE_REASON = {
-    -1: _('unrecognised content type'),
-    0: _('not obtainable'),
-    1: _('obtainable via web page'),
-    2: _('machine readable format'),
-    3: _('open and standardized format'),
-    4: _('ontologically represented'),
-    5: _('fully Linked Open Data as appropriate'),
+    -1: 'unrecognised content type',
+    0: 'not obtainable',
+    1: 'obtainable via web page',
+    2: 'machine readable format',
+    3: 'open and standardized format',
+    4: 'ontologically represented',
+    5: 'fully Linked Open Data as appropriate',
 }
 
 MIME_TYPE_SCORE = {
@@ -38,6 +38,7 @@ MIME_TYPE_SCORE = {
     'application/vnd.ms-excel.sheet.macroenabled.12': 2,
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 2,
     'xls': 2,
+    'xlsx': 2,
     'text/csv': 3,
     'application/json': 3,
     'application/xml': 3,
@@ -46,7 +47,8 @@ MIME_TYPE_SCORE = {
     'xml': 3,
     'json': 3,
     'application/rdf+xml': 4,
-    'rdf': 4
+    'rdf': 4,
+    'application/ld+json' :4
 }
 
 
