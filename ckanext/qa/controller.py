@@ -36,8 +36,12 @@ class QAController(BaseController):
         return p.toolkit.render('qa/five_stars.html')
 
     def dataset_broken_resource_links(self):
-        c.packages = broken_resource_links_by_dataset()
+        c.packages = broken_resource_links_by_dataset(u'URL unobtainable: Server returned HTTP 404')
         return render('qa/dataset_broken_resource_links.html')
+
+    def dataset_license_not_open(self):
+        c.packages = broken_resource_links_by_dataset(u'License not open')
+        return render('qa/dataset_license_not_open.html')
 
     def organisation_index(self):
         return render('qa/organisations.html')
@@ -70,7 +74,26 @@ class QAController(BaseController):
         return self._output_json(result)
 
     def broken_resource_links_by_dataset(self, format='json'):
-        result = broken_resource_links_by_dataset()
+        result = broken_resource_links_by_dataset(u'URL unobtainable: Server returned HTTP 404')
+        if format == 'csv':
+            rows = []
+            for dataset in result:
+                for resource in dataset.resources:
+                    row = [
+                        dataset.name,
+                        dataset.title,
+                        resource.get('url', ''),
+                        unicode(resource.get('openness_score', '')),
+                        resource.get('openness_score_reason', ''),
+                    ]
+                    rows.append(row)
+            filename = 'broken_links_by_dataset'
+            return  self._output_csv_file(self.headers[2:], rows, filename)
+        else:
+            return self._output_json(result)
+
+    def license_not_open_by_dataset(self, format='json'):
+        result = broken_resource_links_by_dataset(u'License not open')
         if format == 'csv':
             rows = []
             for dataset in result:

@@ -30,6 +30,7 @@ def five_stars(id=None):
         .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
         .filter(model.TaskStatus.key==u'openness_score')\
         .group_by(model.Package.name, model.Package.title, model.Resource.id, model.TaskStatus.value)\
+        .order_by(model.Package.name.asc(), model.TaskStatus.value.desc())\
         .distinct()
 
     if id:
@@ -97,7 +98,7 @@ def resource_five_stars(id):
     return result
 
 
-def broken_resource_links_by_dataset():
+def broken_resource_links_by_dataset(reason):
     """
     Return a list of named tuples, one for each dataset that contains
     broken resource links (defined as resources with an openness score of 0).
@@ -110,8 +111,8 @@ def broken_resource_links_by_dataset():
     query = query \
         .join(model.Resource)\
         .join(model.TaskStatus, model.TaskStatus.entity_id == model.Resource.id)\
-        .filter(model.TaskStatus.key == u'openness_score')\
-        .filter(model.TaskStatus.value == u'0')\
+        .filter(model.TaskStatus.key == u'openness_score_reason')\
+        .filter(model.TaskStatus.value == reason)\
         .distinct()
 
     context = {'model': model, 'session': model.Session}

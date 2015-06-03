@@ -5,8 +5,11 @@
   <ul>
     <li>{{h.link_to(_('Dataset openness scores'), h.url_for(controller='ckanext.qa.controller:QAController', action='five_stars'))}}</li>
     <li>{{h.link_to(_('Datasets with broken resource links'), h.url_for(controller='ckanext.qa.controller:QAController', action='dataset_broken_resource_links'))}}</li>
-    {% if c.organisations %}
+
+    {#{% if c.organisations %}
       <li>{{h.link_to(_('Organisations whose datasets contain broken resource links'), h.url_for(controller='ckanext.qa.controller:QAController', action='broken_resource_links'))}}</li>
-    {% endif %}
+    {% endif %}#}
+
+    <li>{{h.link_to(_('Datasets with license not open'), h.url_for(controller='ckanext.qa.controller:QAController', action='dataset_license_not_open'))}}</li>
   </ul>
 {% endblock %}

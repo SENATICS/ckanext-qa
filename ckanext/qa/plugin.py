@@ -49,12 +49,17 @@ class QAPlugin(p.SingletonPlugin):
 
         map.connect('/qa/dataset',
                     controller=qa_controller, action='package_index')
+
         map.connect('/qa/dataset/five_stars',
                     action='five_stars',
                     controller=qa_controller)
 
         map.connect('/qa/dataset/broken_resource_links',
                     action='dataset_broken_resource_links',
+                    controller=qa_controller)
+
+        map.connect('/qa/dataset/license_not_open',
+                    action='dataset_license_not_open',
                     controller=qa_controller)
 
         map.connect('/qa/organisation/',
@@ -78,14 +83,18 @@ class QAPlugin(p.SingletonPlugin):
                     requirements=dict(action='|'.join([
                         'dataset_five_stars',
                         'broken_resource_links_by_dataset',
+                        'license_not_open_by_dataset',
                     ])),
                     controller=qa_controller)
+
         map.connect('/api/2/util/qa/{action}.:(format)',
                     conditions=dict(method=['GET']),
                     requirements=dict(action='|'.join([
                         'broken_resource_links_by_dataset',
+                        'license_not_open_by_dataset',
                     ])),
                     controller=qa_controller)
+
         map.connect('/api/2/util/qa/{action}/:(id).:(format)',
                     conditions=dict(method=['GET']),
                     requirements=dict(action='|'.join([
