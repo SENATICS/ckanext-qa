@@ -38,6 +38,7 @@ MIME_TYPE_SCORE = {
     'application/vnd.ms-excel.sheet.binary.macroenabled.12': 2,
     'application/vnd.ms-excel.sheet.macroenabled.12': 2,
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 2,
+    'application/vnd.openxmlformates-officedocument.spreadsheetml.sheet': 2,
     'xls': 2,
     'xlsx': 2,
     'text/csv': 3,
@@ -49,7 +50,8 @@ MIME_TYPE_SCORE = {
     'json': 3,
     'application/rdf+xml': 4,
     'rdf': 4,
-    'application/ld+json': 4
+    'application/ld+json': 4,
+    'jsonld': 4,
 }
 
 
@@ -116,7 +118,6 @@ def update(context, data):
                                         this resource has returned a score of 0
     """
     log = update.get_logger()
-    log.info("dentro de update")
     try:
         data = json.loads(data)
         context = json.loads(context)
@@ -195,7 +196,6 @@ def resource_score(context, data):
     if not data.get('is_open'):
         score_reason = 'License not open'
     else:
-        #log.info("++++++++++++++++++ Tiene licencia abierta");
         try:
             headers = json.loads(link_checker("{}", json.dumps(data)))
             ct = headers.get('content-type')
@@ -208,14 +208,7 @@ def resource_score(context, data):
             format = data.get('format', '').lower()
             file_type = mimetypes.guess_type(data['url'])[0]
 
-            # log.info(data['url'])
-            # log.info("++++++++++++++++++ types")
-            # log.info(file_type)
-            # log.info(format)
-            # log.info(ct)
-
             if format == 'jsonld':
-                #log.info("++++++++++++++++++ format = jsonld")
                 file_type = 'application/ld+json'
 
             # file type takes priority for scoring
